@@ -6,7 +6,7 @@
 /*   By: kebris-c <kebris-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 02:25:30 by kebris-c          #+#    #+#             */
-/*   Updated: 2025/04/16 04:42:32 by kebris-c         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:07:58 by kebris-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
 char	*get_next_line(int fd);
-char	*read_line_to_stash(int fd, char *stash);
-char	*prepare_stash(char *stash);
-char	*strchr(const char *s, int c);
-char    *strjoin(char *s1, char *s2);
-size_t	strlen(const char *s);
-char    *substr(char *s, unsigned int start, size_t len);
-char	*strdup(const char *s1);
+char	*ft_strchr(char *stash, int c);
+char	*ft_strjoin(char *stash, char *buf, int i, int j);
+char	*ft_substr(char *str, int start, size_t len);
 
 #endif

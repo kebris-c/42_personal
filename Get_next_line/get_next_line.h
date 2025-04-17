@@ -6,7 +6,7 @@
 /*   By: kebris-c <kebris-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 02:25:30 by kebris-c          #+#    #+#             */
-/*   Updated: 2025/04/16 22:07:58 by kebris-c         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:52:38 by kebris-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_strchr(char *stash, int c);
-char	*ft_strjoin(char *stash, char *buf, int i, int j);
-char	*ft_substr(char *str, int start, size_t len);
+char	*ft_strchr(const char *str, int c);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_substr(const char *str, size_t start, size_t len);
 
 #endif

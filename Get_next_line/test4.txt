@@ -1,2 +1,0 @@
-Esta línea es extremadamente larga y está pensada para comprobar si get_next_line es capaz de gestionar correctamente líneas que superan el tamaño habitual del buffer sin romperse o truncarse, lo cual es muy importante para garantizar la estabilidad del programa.
-Y esta es otra línea igualmente larga, con muchos caracteres para testear hasta qué punto se gestiona correctamente el contenido.

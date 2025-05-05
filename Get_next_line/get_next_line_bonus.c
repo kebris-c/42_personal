@@ -18,6 +18,13 @@ static char	*ft_extract_line(char *stash, char *newline_ptr)
 
 	if (!stash)
 		return (NULL);
+	if (!newline_ptr && !*stash)
+	{
+		line = ft_strjoin_and_free(NULL, stash);
+		if (!line)
+			return (NULL);
+		return (line);
+	}
 	if (!newline_ptr)
 	{
 		line = ft_strjoin_and_free(NULL, stash);

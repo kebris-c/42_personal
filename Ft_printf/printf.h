@@ -2,9 +2,9 @@
 # define PRINTF_H
 
 //	Defines
-# define GET_ARG(type) va_arg(print->args, type)
+# define GET_ARG(type) va_arg(printf->args, type)
 # define HEX "0123456789abcdef"
-# define HEXU "0123456789ABCDEF"
+# define HEXUP "0123456789ABCDEF"
 # define DEC "0123456789"
 
 //	Headers
@@ -19,21 +19,18 @@ typedef enum	e_bool
 	TRUE = 1
 }	t_bool;
 
-typedef struct	s_print
+typedef struct	s_printf
 {
 	va_list			args;
 	int				count;
-	int				i;
-	char			*s;
-	void			*p;
-	unsigned int	u;
-	unsigned int	x;
-}	t_print;
+}	t_printf;
 
 //	Prototypes
 int		ft_printf(const char *, ...);
-t_bool	ft_itoa_base(unsigned long long p, char *base, t_print *print);
-void	ft_putstr_fd(char *str, int std);
+int		ft_print_str(t_printf *printf);
+int		ft_print_base(unsigned long long ptr, t_printf *printf, char *base);
+int		ft_print_digits(t_printf *printf);
 size_t	ft_strlen(char *str);
+void	ft_putstr_fd(char *str, int std);
 
 #endif

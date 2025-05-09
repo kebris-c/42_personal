@@ -1,80 +1,56 @@
 #include "printf.h"
 
-static t_bool	ft_exec_flag_aux(char flag, t_print *print)
+static t_bool	ft_parse_flags(char const *format, t_printf *printf)
 {
-	if (flag == 'p')
-	{
-		print->p = GET_ARG(void *);
-		print->p = (unsigned long long)print->p;
-		ft_putstr_fd("0x", 1);
-		return (ft_itoa_base(print->p, HEX, print));
-	}
-	if (flag == 'd' || flag == 'i')
-	{
-		print->i = GET_ARG(int);
-		print->count += print->i;
-		if (print->i < 0)
-		{
-			write(1, '-', 1);
-			print->i *= -1;
-		}
-		return (ft_itoa_base((unsigned long long)print->i, DEC, print));
-	}
-	print->x = GET_ARG(unsigned int);
-	if (flag == 'x')
-		return (ft_itoa_base((unsigned long long)print->x, HEX, print));
-	if (flag == 'X')
-		return (ft_itoa_base((unsigned long long)print->x, HEXU, print));
-}
+	char	c;
 
-static t_bool	ft_exec_flag(char flag, t_print *print)
-{
-	if (flag == '%' || flag == 'c')
+	if (*format == 'c')
 	{
-		if (flag == '%')
-			write(1, '%', 1);
-		else
-			write(1, GET_ARG(int), 1);
-		print->count++;
+		c = GET_ARG(char);
+		write(1, &c, 1);
+		printf->count++;
 	}
-	else if (flag == 's')
+	else if (*format == 's')
+		ft_print_str(printf);
+	else if (*format == 'p' || *format == 'x')
+		ft_print_base(GET_ARG(unsigned long long), printf, HEX);
+	else if (*format == 'd' || *format == 'i' || *format == 'u')
+		ft_print_digits(printf);
+	else if (*format == 'X')
+		ft_print_base(GET_ARG(unsigned long long), printf, HEXUP);
+	else if (*format == '%')
 	{
-		print->s = GET_ARG(char *);
-		print->count += ft_strlen(print->s);
-		ft_putstr_fd(print->s, 1);
+		write(1, "%", 1);
+		printf->count++;
 	}
-	else if (flag == 'p' || flag == 'd' || flag == 'i'
-		|| flag == 'x' || flag == 'X')
-		return (ft_exec_flag_aux(flag, print));
 	else
-	{
-		print->u = GET_ARG(unsigned int);
-		print->count += print->u;
-		return (ft_itoa_base((unsigned long long)print->u, DEC, print));
-	}
+		return (FALSE);
 	return (TRUE);
 }
 
 int	ft_printf(char const *format, ...)
 {
-	t_print	*print;
-	int		i;
+	t_printf	printf;
+	va_list	args;
 
-	if (!format || !*format)
+	if (!format)
 		return (-1);
-	va_start(print->args, format);
-	i = 0;
-	while (format[i])
+	va_start(args, format);
+	printf.args = args;
+	while (*format)
 	{
-		if (format[i] == '%' && format[i + 1])
+		if (*format == '%' && format[1])
 		{
-			if (!ft_exec_flag(format[i + 1], print))
-				return (-1);
+			if (ft_parse_flags(format + 1, &printf))
+			{
+				format += 2;
+				continue ;
+			}
 		}
-		else
-			write(1, &format[i], 1);
-		i++;
+		write(1, *format, 1);
+		printf.count++;
+		format++;
 	}
-	va_end(print->args);
-	return (print->count);
+	va_end(args);
+	return (printf.count);
 }

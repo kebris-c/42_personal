@@ -1,28 +1,41 @@
-#include "printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 15:51:05 by kebris-c          #+#    #+#             */
+/*   Updated: 2025/05/12 18:43:56 by kebris-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
 
 static t_bool	ft_parse_flags(char const *format, t_printf *printf)
 {
-	char	c;
+	int	c;
 
 	if (*format == 'c')
 	{
-		c = GET_ARG(char);
+		c = va_arg(printf->args, int);
 		write(1, &c, 1);
 		printf->count++;
 	}
 	else if (*format == 's')
 		ft_print_str(printf);
-	else if (*format == 'p' || *format == 'x')
-		ft_print_base(GET_ARG(unsigned long long), printf, HEX);
-	else if (*format == 'd' || *format == 'i' || *format == 'u')
+	else if (*format == 'p')
+		ft_print_ptr(printf);
+	else if (*format == 'x')
+		ft_print_base(va_arg(printf->args, unsigned int), printf, HEX);
+	else if (*format == 'd' || *format == 'i')
 		ft_print_digits(printf);
+	else if (*format == 'u')
+		ft_print_unsigned(printf);
 	else if (*format == 'X')
-		ft_print_base(GET_ARG(unsigned long long), printf, HEXUP);
+		ft_print_base(va_arg(printf->args, unsigned int), printf, HEXUP);
 	else if (*format == '%')
-	{
-		write(1, "%", 1);
-		printf->count++;
-	}
+		printf->count += write(1, "%", 1);
 	else
 		return (FALSE);
 	return (TRUE);
@@ -31,12 +44,12 @@ static t_bool	ft_parse_flags(char const *format, t_printf *printf)
 int	ft_printf(char const *format, ...)
 {
 	t_printf	printf;
-	va_list	args;
+	char		c;
 
 	if (!format)
 		return (-1);
-	va_start(args, format);
-	printf.args = args;
+	printf.count = 0;
+	va_start(printf.args, format);
 	while (*format)
 	{
 		if (*format == '%' && format[1])
@@ -47,10 +60,11 @@ int	ft_printf(char const *format, ...)
 				continue ;
 			}
 		}
-		write(1, *format, 1);
+		c = *format;
+		write(1, &c, 1);
 		printf.count++;
 		format++;
 	}
-	va_end(args);
+	va_end(printf.args);
 	return (printf.count);
 }

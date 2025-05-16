@@ -1,15 +1,14 @@
-/*
-** Main de prueba para get_next_line
-** Compila con:
-**
-** Para la parte obligatoria:
-** cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line_utils.c
-**
-** Para la parte bonus:
-** cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 main.c get_next_line_bonus.c get_next_line_utils_bonus.c
-**
-** Para cambiar el BUFFER_SIZE, cambia el valor después de -D.
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 10:41:51 by kebris-c          #+#    #+#             */
+/*   Updated: 2025/05/16 10:44:41 by kebris-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -17,7 +16,6 @@
 #include <unistd.h>
 #include <string.h>
 
-// Incluye el header correspondiente según si pruebas la parte obligatoria o bonus
 #ifdef BONUS
 # include "get_next_line_bonus.h"
 #else

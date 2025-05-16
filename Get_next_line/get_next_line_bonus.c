@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 10:37:23 by kebris-c          #+#    #+#             */
+/*   Updated: 2025/05/16 10:39:09 by kebris-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 static char	*ft_update_stash(char *stash, char *newline_ptr)
@@ -107,10 +119,7 @@ char	*get_next_line(int fd)
 	newline_ptr = NULL;
 	check = ft_stashing(current, fd, &newline_ptr);
 	if (check == -1)
-	{
-		ft_del_node(&fd_lst, fd);
-		return (NULL);
-	}
+		return (ft_del_node(&fd_lst, fd), NULL);
 	line = ft_extract_line(current->stash, newline_ptr);
 	if (!line || (!newline_ptr && !*current->stash))
 	{

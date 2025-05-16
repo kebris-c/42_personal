@@ -1,72 +1,63 @@
-#include "printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 15:59:18 by kebris-c          #+#    #+#             */
+/*   Updated: 2025/05/12 18:52:11 by kebris-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <limits.h>
+#include "ft_printf.h"
 
-#define GREEN   "\033[0;32m"
-#define RED     "\033[0;31m"
-#define RESET   "\033[0m"
-
-void compare_returns(int ret_ft, int ret_sys)
+static void	aux(void)
 {
-	if (ret_ft == ret_sys)
-		printf(GREEN "return OK ✔️ ft=%d | sys=%d\n\n" RESET, ret_ft, ret_sys);
-	else
-		printf(RED "return MISMATCH ❌ ft=%d | sys=%d\n\n" RESET, ret_ft, ret_sys);
+	int		r1;
+	int		r2;
+
+	r1 = printf("orig: %%i: [%i]\n", 1337);
+	r2 = ft_printf("mine: %%i: [%i]\n", 1337);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%%%u: [%u]\n", UINT_MAX);
+	r2 = ft_printf("mine: %%%%u: [%u]\n", UINT_MAX);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%x: [%x]\n", 48879);
+	r2 = ft_printf("mine: %%x: [%x]\n", 48879);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%%%X: [%X]\n", 48879);
+	r2 = ft_printf("mine: %%%%X: [%X]\n", 48879);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%: [%%]\n");
+	r2 = ft_printf("mine: %%: [%%]\n");
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
 }
 
-int main(void)
+int	main(void)
 {
-	int	ret_ft, ret_sys;
-	int	num = -42;
-	unsigned int u = 4294967295U;
-	void *ptr = &num;
-	char c = 'A';
-	char *str = "Texto de prueba";
+	int		r1;
+	int		r2;
+	void	*ptr;
 
-	// %c
-	ret_ft = ft_printf("ft: Carácter: [%c]\n", c);
-	ret_sys = printf("sys: Carácter: [%c]\n", c);
-	compare_returns(ret_ft, ret_sys);
-
-	// %s
-	ret_ft = ft_printf("ft: Cadena: [%s]\n", str);
-	ret_sys = printf("sys: Cadena: [%s]\n", str);
-	compare_returns(ret_ft, ret_sys);
-
-	// %s con NULL
-	ret_ft = ft_printf("ft: Cadena NULL: [%s]\n", (char *)NULL);
-	ret_sys = printf("sys: Cadena NULL: [%s]\n", (char *)NULL);
-	compare_returns(ret_ft, ret_sys);
-
-	// %p
-	ret_ft = ft_printf("ft: Puntero: [%p]\n", ptr);
-	ret_sys = printf("sys: Puntero: [%p]\n", ptr);
-	compare_returns(ret_ft, ret_sys);
-
-	// %d, %i
-	ret_ft = ft_printf("ft: Decimal (d): [%d] | Entero (i): [%i]\n", num, num);
-	ret_sys = printf("sys: Decimal (d): [%d] | Entero (i): [%i]\n", num, num);
-	compare_returns(ret_ft, ret_sys);
-
-	// %d extremos
-	ret_ft = ft_printf("ft: INT_MIN: [%d], INT_MAX: [%d]\n", INT_MIN, INT_MAX);
-	ret_sys = printf("sys: INT_MIN: [%d], INT_MAX: [%d]\n", INT_MIN, INT_MAX);
-	compare_returns(ret_ft, ret_sys);
-
-	// %u
-	ret_ft = ft_printf("ft: Unsigned: [%u]\n", u);
-	ret_sys = printf("sys: Unsigned: [%u]\n", u);
-	compare_returns(ret_ft, ret_sys);
-
-	// %x, %X
-	ret_ft = ft_printf("ft: Hexa minúsculas: [%x] | mayúsculas: [%X]\n", 48879, 48879);
-	ret_sys = printf("sys: Hexa minúsculas: [%x] | mayúsculas: [%X]\n", 48879, 48879);
-	compare_returns(ret_ft, ret_sys);
-
-	// %%
-	ret_ft = ft_printf("ft: Porcentaje doble: [%%]\n");
-	ret_sys = printf("sys: Porcentaje doble: [%%]\n");
-	compare_returns(ret_ft, ret_sys);
-
-	return 0;
+	r1 = printf("orig: %%c: [%c]\n", 'A');
+	r2 = ft_printf("mine: %%c: [%c]\n", 'A');
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%s: [%s]\n", "Hola mundo");
+	r2 = ft_printf("mine: %%s: [%s]\n", "Hola mundo");
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%s NULL: [%s]\n", (char *) NULL);
+	r2 = ft_printf("mine: %%s NULL: [%s]\n", (char *) NULL);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	ptr = (void *)0x1234ABCD;
+	r1 = printf("orig: %%p: [%p]\n", ptr);
+	r2 = ft_printf("mine: %%p: [%p]\n", ptr);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	r1 = printf("orig: %%d: [%d]\n", -42);
+	r2 = ft_printf("mine: %%d: [%d]\n", -42);
+	printf("Retorno printf: %d | ft_printf: %d\n\n", r1, r2);
+	aux();
+	return (0);
 }

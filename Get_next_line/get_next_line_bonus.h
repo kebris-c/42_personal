@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 10:39:45 by kebris-c          #+#    #+#             */
+/*   Updated: 2025/05/16 10:39:55 by kebris-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
@@ -14,7 +26,7 @@
 # include <stdlib.h>
 
 //	typedefs
-typedef struct	s_fd_lst
+typedef struct s_fd_lst
 {
 	int				fd;
 	char			*stash;

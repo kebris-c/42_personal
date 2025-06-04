@@ -12,90 +12,100 @@
 
 #include "get_next_line_bonus.h"
 
-static size_t	ft_strlen(char *str)
+size_t ft_strlen(const char *s)
 {
-	size_t	len;
-
-	if (!str)
-		return (0);
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+    size_t len;
+    
+    if (!s)
+        return (0);
+    
+    len = 0;
+    while (s[len])
+        len++;
+    
+    return (len);
 }
 
-void	ft_init_node(t_line *node, int fd)
+char *ft_strchr(const char *s, int c)
 {
-	node->fd = fd;
-	node->stash = NULL;
-	node->next = NULL;
-	node->curr = node;
+    if (!s)
+        return (NULL);
+    
+    while (*s)
+    {
+        if (*s == (char)c)
+            return ((char *)s);
+        s++;
+    }
+    
+    if ((char)c == '\0')
+        return ((char *)s);
+    
+    return (NULL);
 }
 
-void	ft_del_node(t_line **lst_line, int fd)
+char *ft_strdup(const char *s)
 {
-	t_line	*prev;
-	t_line	*curr;
-
-	if (!lst_line || !*lst_line)
-		return ;
-	prev = NULL;
-	curr = *fd_lst;
-	while (curr)
-	{
-		if (curr->fd == fd)
-		{
-			if (!prev)
-				*fd_lst = curr->next;
-			else
-				prev->next = curr->next;
-			if (curr->stash)
-				free(curr->stash);
-			free(curr);
-			return ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
+    char    *dup;
+    size_t  len;
+    size_t  i;
+    
+    if (!s)
+        return (NULL);
+    
+    len = ft_strlen(s);
+    dup = malloc(sizeof(char) * (len + 1));
+    if (!dup)
+        return (NULL);
+    
+    i = 0;
+    while (i < len)
+    {
+        dup[i] = s[i];
+        i++;
+    }
+    dup[i] = '\0';
+    
+    return (dup);
 }
 
-char	*ft_strjoin_and_free(char *s1, char *s2)
+char *ft_strjoin(const char *s1, const char *s2)
 {
-	size_t	i;
-	size_t	j;
-	char	*joined;
-
-	if (!s1 && !s2)
-		return (NULL);
-	joined = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!joined)
-	{
-		free(s1);
-		free(s2);
-		return (NULL);
-	}
-	i = 0;
-	j = 0;
-	while (s1 && s1[i++])
-		joined[i + j] = s1[i - 1];
-	while (s2 && s2[j++])
-		joined[i + j] = s2[j - 1];
-	joined[i + j] = '\0';
-	free(s1);
-	free(s2);
-	return (joined);
-}
-
-char	*ft_strchr(char *stash, char nl)
-{
-	size_t	i;
-
-	if (!stash)
-		return (NULL);
-	i = 0;
-	while (stash[i] != nl && stash[i])
-		i++;
-	if (stash[i] == nl)
-		return (stash + i);
-	return (NULL);
+    char    *joined;
+    size_t  len1;
+    size_t  len2;
+    size_t  i;
+    size_t  j;
+    
+    if (!s1 && !s2)
+        return (NULL);
+    if (!s1)
+        return (ft_strdup(s2));
+    if (!s2)
+        return (ft_strdup(s1));
+    
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    
+    joined = malloc(sizeof(char) * (len1 + len2 + 1));
+    if (!joined)
+        return (NULL);
+    
+    i = 0;
+    while (i < len1)
+    {
+        joined[i] = s1[i];
+        i++;
+    }
+    
+    j = 0;
+    while (j < len2)
+    {
+        joined[i + j] = s2[j];
+        j++;
+    }
+    
+    joined[i + j] = '\0';
+    
+    return (joined);
 }
